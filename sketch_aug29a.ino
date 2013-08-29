@@ -320,6 +320,8 @@ void SPIwrite24bitRegister(byte b23to16, byte b15to8, byte b7to0, boolean NewFra
   // of the frame
   if(NewFrame)
     digitalWrite(6, LOW);
+    
+  delay(100);
 }
 
 //############################################################
