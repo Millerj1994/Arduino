@@ -11,7 +11,7 @@ data is Function, R, N
 // For SPI Communications
 #include <SPI.h>
 // For adjusting the system clock register
-#include <avr/io.h>
+#include <io.h>
 
 //############################################################
 //                 PRECALCULATED SPI DATA                   //
@@ -317,9 +317,7 @@ void SPIwrite24bitRegister(byte b23to16, byte b15to8, byte b7to0, boolean NewFra
   SPI.transfer(b7to0);
   
   // Return SS to high
-  digitalWrite(7, HIGH);
   digitalWrite(SS, HIGH);
-  digitalWrite(7, LOW);
 }
 
 //############################################################
