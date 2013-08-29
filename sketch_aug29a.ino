@@ -292,7 +292,16 @@ void setup() {
 //                    WRITE 3 BYTES OVER SPI                //
 //############################################################
 void SPIwrite24bitRegister(byte b23to16, byte b15to8, byte b7to0, boolean NewFrame) {
-
+    
+  // Pull down SS
+  digitalWrite(SS, LOW);
+  
+  // Transfer all three bytes
+  SPI.transfer(b23to16);
+  SPI.transfer(b15to8);
+  SPI.transfer(b7to0);
+  
+  
   // If NewFrame is true, we are at the beginning of a new set of 
   // data, and both SI and LE must be high
   if(NewFrame)
@@ -301,23 +310,16 @@ void SPIwrite24bitRegister(byte b23to16, byte b15to8, byte b7to0, boolean NewFra
   else
     PORTD = B10000000;
     
-  // Pull down SS
-  digitalWrite(SS, LOW);
-  
-  // Transfer the first byte
-  // This also serves as a timer for how long we keep
-  // LE and SI high
-  SPI.transfer(b23to16);
-  
-  // After one byte transmission, set both LE and SI back low
-  PORTD = B00000000;
-  
-  // Transfer remaining data
-  SPI.transfer(b15to8);
-  SPI.transfer(b7to0);
-  
   // Return SS to high
   digitalWrite(SS, HIGH);
+  
+  // Return LE to low
+  digitalWrite(7, LOW);
+  
+  // If NewFrame is true, we must return SI to low for the duration
+  // of the frame
+  if(NewFrame)
+    digitalWrite(6, LOW);
 }
 
 //############################################################
