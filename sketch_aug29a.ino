@@ -11,7 +11,7 @@ data is Function, R, N
 // For SPI Communications
 #include <SPI.h>
 // For adjusting the system clock register
-#include <io.h>
+#include <avr/io.h>
 
 //############################################################
 //                 PRECALCULATED SPI DATA                   //
